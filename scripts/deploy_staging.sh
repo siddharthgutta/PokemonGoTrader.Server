@@ -1,4 +1,4 @@
-# We don't source .bashrc when using a non-interactive shell so we have to fix the PATH
+# We don't source .bashrc when using a non-interactive shell so we have to fix the PATH variable
 PATH=$PATH:/home/ubuntu/.nvm/versions/node/v5.5.0/bin
 
 # Remove Caches
