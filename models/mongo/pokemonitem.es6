@@ -1,32 +1,24 @@
 import mongoose from 'mongoose';
-import fs from 'fs';
+import pokemonNames from '../../constants/pokemonNames.es6';
 import * as Item from './item.es6';
-import * as Utils from '../../libs/utils.es6';
 
 const options = {
 	discriminatorKey: 'kind'
 };
 
-function checkPokemon(name) {
-	const pokemonFile = fs.readFileSync('../../data/pokemon.json');
-	const pokemonNames = JSON.parse(pokemonFile);
-	return !Utils.isEmpty(pokemonNames[name]);
-}
-
+// PokemonItem is a discriminator of Item which essentially is like an extension
+// allowing it to retain all the properties of an item while adding more properties
+// and specific validators for Pokemon
 const pokemonItemSchema = Item.discriminator('PokemonItem', new mongoose.Schema({
 	name: {
-		validate: {
-			validator: name => checkPokemon(name),
-			message: 'That is not a valid Pokemon name'
-		}
+		enum: pokemonNames
 	},
 	types: [String],
 	combatPower: {
 		type: Number,
 		required: true,
-		min: 10,
 		validate: {
-			validator: combatPower => Number.isInteger(combatPower),
+			validator: combatPower => Number.isInteger(combatPower) && combatPower >= 0,
 			message: 'Combat Power must be an integer'
 		}
 	}

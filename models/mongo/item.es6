@@ -22,7 +22,7 @@ const itemSchema = new mongoose.Schema({
   price: {
     type: Number,
     validate: {
-      validator: price => Number.isInteger(price),
+      validator: price => Number.isInteger(price) && price >= 0,
       message: 'Price must be an integer'
     }
   },
