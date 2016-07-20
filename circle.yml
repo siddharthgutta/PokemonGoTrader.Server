@@ -3,3 +3,30 @@ machine:
     # Use node version 5.5.0
     version: 5.5.0
 
+test:
+  pre:
+    # Run Lint
+    - npm run lint
+    # Compile needed files
+    - grunt lazy-compile
+  override:
+    # Run tests
+    - npm run tests
+
+deployment:
+  production:
+    # Use master branch for production
+    branch: master
+    commands:
+      # Take away permissions from pem key
+      - chmod 400 ./keys/entree.pem
+      # SSH into server and run deploy_prod script
+      - ssh ubuntu@ec2-52-26-241-191.us-west-2.compute.amazonaws.com -i ./keys/entree.pem 'bash -s' < ./scripts/deploy_prod.sh
+  staging:
+    # Use non-master branch for staging
+    branch: /^(?!master$).*/
+    commands:
+      # Take away permissions from pem key
+      - chmod 400 ./keys/entree.pem
+      # SSH into server and run deploy_staging script passing it the name of the branch
+      - ssh ubuntu@ec2-52-41-69-134.us-west-2.compute.amazonaws.com -i ./keys/entree.pem 'bash -s' < ./scripts/deploy_staging.sh $CIRCLE_BRANCH

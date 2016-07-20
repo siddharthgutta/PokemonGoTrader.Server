@@ -77,14 +77,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/siddharthgutta/Entree.Server.git"
+    "url": "git+https://github.com/siddharthgutta/PokemonGoTrader.Server.git"
   },
   "author": "Entree",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/siddharthgutta/Entree.Server/issues"
+    "url": "https://github.com/siddharthgutta/PokemonGoTrader.Server/issues"
   },
-  "homepage": "https://github.com/siddharthgutta/Entree.Server#readme",
+  "homepage": "https://github.com/siddharthgutta/PokemonGoTrader.Server#readme",
   "devDependencies": {
     "babel-cli": "6.10.1",
     "babel-core": "6.5.2",

@@ -3,7 +3,7 @@
     "clearOnStart": true,
     "username": "root",
     "password": "123456",
-    "database": "entree_test",
+    "database": "pokemon_test",
     "host": "127.0.0.1",
     "port": "27017"
   }
