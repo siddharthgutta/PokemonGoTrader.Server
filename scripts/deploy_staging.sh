@@ -44,6 +44,9 @@ get_unused_port() {
   done
 }
 
+# Set the node port
+export NODE_PORT="$(get_unused_port)"
+
 # Setting environment variables
 export NODE_ENV="staging"
 
