@@ -7,14 +7,14 @@ rm -rf /tmp/npm-*
 cd /home/ubuntu/.pm2/repos
 
 # Check if the folder/branch folder already exists
-if cd $1"Entree.Server"; then
+if cd $1"PokemonGoTrader.Server"; then
     # Pull if folder exists
     git pull
     git reset --hard origin/$1
 else
     # If folder doesn't exist, create a new folder and clone into it
-    git clone git@github.com:siddharthgutta/Entree.Server.git $1"Entree.Server"
-    cd $1"Entree.Server"
+    git clone git@github.com:siddharthgutta/PokemonGoTrader.Server.git $1"PokemonGoTrader.Server"
+    cd $1"PokemonGoTrader.Server"
 fi
 
 # Create Shared node_modules
@@ -47,18 +47,6 @@ get_unused_port() {
 # Setting environment variables
 export NODE_ENV="staging"
 
-if [[ "$1" == "staging" ]]; then
-    export NODE_PORT=443
-elif [[ "$1" == "facebook" ]]; then
-    export NODE_PORT=2999
-elif [[ "$1" == "location-button" ]]; then
-    export NODE_PORT=2997
-elif [[ "$1" == "hours-button" ]]; then
-    export NODE_PORT=2998
-else
-    export NODE_PORT="$(get_unused_port)"
-fi
-
 export APP_BRANCH="$1"
 
 echo "Branch Pushed: $APP_BRANCH"
@@ -66,9 +54,6 @@ echo "Free Port Chosen: $NODE_PORT"
 git checkout $APP_BRANCH
 npm install
 grunt compile
-
-# Build Front-End
-gulp build
 
 # Get a list of appnames from pm2
 appname=$(pm2 jlist | jq '.[] .name')

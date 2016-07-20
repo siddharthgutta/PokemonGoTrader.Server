@@ -29,4 +29,4 @@ deployment:
       # Take away permissions from pem key
       - chmod 400 ./keys/entree.pem
       # SSH into server and run deploy_staging script passing it the name of the branch
-      - ssh ubuntu@ec2-52-41-69-134.us-west-2.compute.amazonaws.com -i ./keys/entree.pem 'bash -s' < ./scripts/deploy_staging.sh $CIRCLE_BRANCH
+      - ssh ubuntu@ec2-52-42-189-64.us-west-2.compute.amazonaws.com -i ./keys/entree.pem 'bash -s' < ./scripts/deploy_staging.sh $CIRCLE_BRANCH
