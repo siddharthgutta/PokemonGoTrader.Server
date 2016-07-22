@@ -1,0 +1,28 @@
+{
+  "Server": {
+    "protocol": "http",
+    "port": 3000
+  },
+  "Slack": {
+    "apiToken": "xoxb-24692177427-wbHorlPeY7idnEcSA5QbYMHL",
+    "username": "entreebot",
+    "braintree": {
+      "channelId": "C0QLEKSV8"
+    },
+    "orders": {
+      "channelId": "C1NF2MJAV"
+    },
+    "suggestions": {
+      "channelId": "C1SE1JYJX"
+    }
+  },
+  "MongoDb": {
+    "username": "root",
+    "password": "123456",
+    "database": "pokemon",
+    "host": "127.0.0.1",
+    "port": "27017"
+  },
+  "NodeEnv": "development",
+  "AppBranch": "local"
+}

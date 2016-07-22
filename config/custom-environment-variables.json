@@ -1,0 +1,7 @@
+{
+  "Server": {
+    "port": "NODE_PORT"
+  },
+  "NodeEnv": "NODE_ENV",
+  "AppBranch": "APP_BRANCH"
+}
