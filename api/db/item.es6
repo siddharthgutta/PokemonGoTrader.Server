@@ -9,10 +9,10 @@ const Item = models.Item;
  */
 
 /**
- * Creates a item
+ * Creates an Item
  *
  * @param {Object} attributes: key value pairs of the attributes we want to populate the User with
- * @returns {Promise}: returns a Item object
+ * @returns {Promise}: returns a item object
  */
 export async function create(attributes) {
   return await (new Item(attributes)).save();
@@ -45,7 +45,8 @@ export async function find(attributes, limit, sortFields, populateFields = []) {
  * @param {Object} conditions: conditions to find the item by
  * @param {Object} updates: update actions to apply to the item object
  * @param {Object} options: options to apply to the query
- * @returns {Promise}: returns the Item object
+ * @returns {Promise}: returns the item object
+>>>>>>> Stashed changes
  */
 export async function findOneAndUpdate(conditions, updates, options) {
   const item = await Item.findOneAndUpdate(conditions, updates, options).exec();

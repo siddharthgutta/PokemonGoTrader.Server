@@ -7,7 +7,7 @@ const options = {
 const itemSchema = new mongoose.Schema({
   name: {
     type: String,
-    required: true,
+    required: true
   },
   transactionType: {
     type: String,
@@ -17,7 +17,8 @@ const itemSchema = new mongoose.Schema({
   status: {
     type: String,
     enum: ['pending', 'sold', 'onHold'],
-    required: true
+    required: true,
+    default: 'pending'
   },
   price: {
     type: Number,
@@ -34,9 +35,10 @@ const itemSchema = new mongoose.Schema({
     type: String,
     required: true
   },
-  User: {
+  user: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'User'
+    ref: 'User',
+    required: true
   }
 }, {
   timestamps: true

@@ -15,7 +15,7 @@ const Pokemon = models.Pokemon;
  * @returns {Promise}: returns a Pokemon object
  */
 export async function create(attributes) {
-	return await (new Pokemon(attributes)).save();
+  return await (new Pokemon(attributes)).save();
 }
 
 /**
@@ -26,13 +26,21 @@ export async function create(attributes) {
  * @returns {Promise}: returns the Pokemon found
  */
 export async function findOne(attributes, populateFields = []) {
-	let findQuery = Pokemon.findOne(attributes);
-	findQuery = _.reduce(populateFields, (query, field) =>
+  let findQuery = Pokemon.findOne(attributes);
+  findQuery = _.reduce(populateFields, (query, field) =>
 			findQuery.populate(field),
 		findQuery);
-	const pokemon = await findQuery.exec();
-	if (Utils.isEmpty(pokemon)) {
-		throw new Error(`Could not find user with attributes:${attributes}`);
-	}
-	return pokemon;
+  const pokemon = await findQuery.exec();
+  if (Utils.isEmpty(pokemon)) {
+    throw new Error(`Could not find user with attributes:${attributes}`);
+  }
+  return pokemon;
+}
+
+export async function find(conditions, limit, populateFields = []) {
+  let findQuery = Pokemon.find(conditions);
+  findQuery = _.reduce(populateFields, (query, field) =>
+		findQuery.populate(field), findQuery);
+  if (limit <= 0) return await findQuery.exec();
+  return await findQuery.limit(limit).exec();
 }

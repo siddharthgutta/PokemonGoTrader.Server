@@ -19,6 +19,10 @@ const db = Object.create(null);
 fs.readdirSync(__dirname)
 	.filter(file => (file.indexOf('.') !== 0) && (file !== basename) && (file.slice(-3) === '.js'))
 	.forEach(file => {
+<<<<<<< Updated upstream
+=======
+		console.log(file);
+>>>>>>> Stashed changes
 		const model = require(path.join(__dirname, file)).default;
 		db[model.modelName] = model;
 		exports[model.modelName] = model;
@@ -28,7 +32,11 @@ fs.readdirSync(__dirname)
  * Closes the connection to mongodb
  */
 export async function close() {
+<<<<<<< Updated upstream
 	mongoose.connection.close();
+=======
+  mongoose.connection.close();
+>>>>>>> Stashed changes
 }
 
 /*

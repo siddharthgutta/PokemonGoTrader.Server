@@ -1,5 +1,5 @@
 import mongoose from 'mongoose';
-import item from './item.es6'
+import item from './item.es6';
 
 const userSchema = new mongoose.Schema({
   firstName: {
@@ -21,7 +21,7 @@ const userSchema = new mongoose.Schema({
     unique: true
   },
   items: [item.schema],
-  Context: {
+  context: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Context'
   }
