@@ -24,5 +24,11 @@
     "port": "27017"
   },
   "NodeEnv": "development",
-  "AppBranch": "local"
+  "AppBranch": "local",
+  "Facebook": {
+    "verificationToken": "cd99a72486b8b63f3e81ec121534f7df43d15553330a900744a3ff243413df69",
+    "pageAccessToken": "EAACfQWqQ8R8BAE1IJdOG8l4WJVTa6O8ZA3XyCZB53ZAFOggUAdIL4wHPdxKas3PqZCLiJGBLztBWrHNZA1Vl4fPFjInxiNJETQhODT2sKfpVzHhwTPGuWG2ZCw6TiumOVqOxP00ZCPLkTWFqqZCLjVin6nV5kYvxnuKVpC0p2tVRewZDZD",
+    "pageId": "1754895201459937",
+    "appId": "175103309574431"
+  }
 }
