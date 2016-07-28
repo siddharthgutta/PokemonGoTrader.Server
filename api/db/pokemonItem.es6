@@ -54,3 +54,27 @@ export async function findOneAndUpdate(conditions, updates, options) {
   }
   return pokemonItem;
 }
+
+export async function addValidator(field, foo)
+{
+  PokemonItem.schema.path(field).validate(await foo(field));
+}
+
+/**
+ * Returns a single producer given a query
+ *
+ * @param {Object} attributes: key value pairs of the attributes we want to query by
+ * @param {Array<String>} populateFields: fields to populate query with
+ * @returns {Promise}: returns a PokemonItem object
+ */
+export async function findOne(attributes, populateFields = []) {
+  let findQuery = PokemonItem.findOne(attributes);
+  findQuery = _.reduce(populateFields, (query, field) =>
+      findQuery.populate(field),
+    findQuery);
+  const pokemonItem = await findQuery.exec();
+  if (Utils.isEmpty(pokemonItem)) {
+    throw new Error(`Could not find producer with attributes: ${JSON.stringify(attributes)}`);
+  }
+  return pokemonItem;
+}

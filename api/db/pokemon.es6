@@ -22,15 +22,10 @@ export async function create(attributes) {
  * Returns a single pokemon given a query
  *
  * @param {Object} attributes: key value pairs of the attributes we want to query by
- * @param {Array<String>} populateFields: the fields to populate
  * @returns {Promise}: returns the Pokemon found
  */
-export async function findOne(attributes, populateFields = []) {
-  let findQuery = Pokemon.findOne(attributes);
-  findQuery = _.reduce(populateFields, (query, field) =>
-			findQuery.populate(field),
-		findQuery);
-  const pokemon = await findQuery.exec();
+export async function findOne(attributes) {
+  const pokemon = await Pokemon.findOne(attributes).exec();
   if (Utils.isEmpty(pokemon)) {
     throw new Error(`Could not find user with attributes:${attributes}`);
   }

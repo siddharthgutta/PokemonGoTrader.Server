@@ -17,7 +17,6 @@ const itemSchema = new mongoose.Schema({
   status: {
     type: String,
     enum: ['pending', 'sold', 'onHold'],
-    required: true,
     default: 'pending'
   },
   price: {

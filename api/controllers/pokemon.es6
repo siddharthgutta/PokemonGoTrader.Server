@@ -1,14 +1,32 @@
 import * as Pokemon from '../db/pokemon.es6';
 import _ from 'lodash';
+import * as Type from './type.es6';
 
 /**
  * Creates a pokemon in the database
  *
  * @param {String} name: name of the pokemon
- * @param {Array<String>} types: types of the pokemon
+ * @param {Array} types: objectIds of the type pokemon
  * @returns {Promise} the created Pokemon
  */
-export async function create(name, types) {
+export async function _create(name, types) {
+  // need to create types within this function 
+  return await Pokemon.create({name, types});
+}
+
+export async function create(name, ptypes) {
+  const types = [];
+  for (const type of ptypes)
+  {
+    try {
+      const {_id} = await Type.findByName(type);
+      types.push(_id);
+    } catch (e) {
+      const {_id} = await Type.create(type);
+      types.push(_id);
+    }
+  }
+
   return await Pokemon.create({name, types});
 }
 
@@ -19,7 +37,7 @@ export async function create(name, types) {
  * @returns {Promise}: the found Pokemon
  */
 export async function findOneByName(name) {
-  return await Pokemon.findOne(name);
+  return await Pokemon.findOne({name});
 }
 
 /**
@@ -29,7 +47,12 @@ export async function findOneByName(name) {
  * @returns {Array<String>}: the found types
  */
 export async function findTypesByName(name) {
-  return await findOneByName(name).types;
+  const pokemon =  (await findOneByName(name)).types;
+  const types = [];
+  for (const type of pokemon) {
+    types.push(await Type.findOneByObjectid(type))
+  }
+  return types;
 }
 
 /**
@@ -62,10 +85,11 @@ export async function findAll(conditions = {}) {
  * @returns {Array<Object>} the pokemon with the given type
  */
 export async function findPokemonByType(type) {
+  const {_id} = await Type.findByName(type);
   const allPokemon = await findAll();
   const foundPokemon = [];
   _(allPokemon).forEach(pokemon => {
-    if (pokemon.types.includes(type)) {
+    if (pokemon.types.includes(_id)) {
       foundPokemon.push(pokemon);
     }
   });

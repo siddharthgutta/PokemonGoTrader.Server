@@ -16,7 +16,8 @@ import * as User from './user.es6';
  * @private
  */
 export async function _create(name, types, combatPower, transactionType, defaultPhoto, fbId, optional) {
-  const {_id} = User.findOneByFbId(fbId);
+  const {_id} = await User.findOneByFbId(fbId);
+  PokemonItem.addValidator('name', checkPokemon);
   return await PokemonItem.create({name, types, combatPower, transactionType, defaultPhoto, user: _id, ...optional});
 }
 
@@ -37,11 +38,47 @@ export async function create(name, combatPower, transactionType, defaultPhoto, f
 }
 
 /**
- * Finds a pokemon item by name
- *
- * @param {String} name: name to query by
- * @returns {Promise}: the found pokemonItems
+ * Checks to see if a pokemon name is valid
+ * @param {String} name: the name of the pokemon to look for
+ * @returns {*}: true if it passes and an Error if it fails
  */
-export async function findByName(name) {
-  return await PokemonItem.find({name});
+async function checkPokemon(name) {
+  try {
+    await Pokemon.findOneByName(name);
+    return true;
+  } catch (err) {
+    return Error;
+  }
+}
+
+/**
+ * Updates a Pokemon Item
+ * 
+ * @param {objectId} _id: the id of the Pokemon Item to update
+ * @param {Object} updatedFields: the fields to update the Pokemon Item with
+ * @returns {Promise} the updated Pokemon item
+ * @private
+ */
+export async function _updateByObjectId(_id, updatedFields) {
+  return await PokemonItem.findOneAndUpdate({_id}, {$set: updatedFields}, {runValidators: true, new: true});
+}
+
+/**
+ * Updates the status of the Pokemon item
+ *
+ * @param {objectId} _id: the id of the Pokemon Item to update
+ * @param {String} status: the update to the status
+ * @returns {Promise} the updated Pokemon item
+ */
+export async function updateStatus(_id, status) {
+  return await PokemonItem.findOneAndUpdate({_id}, {status}, {runValidators: true, new: true});
+}
+
+/**
+ *
+ * @param _id
+ * @returns {Promise}
+ */
+export async function findById(_id) {
+   return await PokemonItem.findOne({_id});
 }
