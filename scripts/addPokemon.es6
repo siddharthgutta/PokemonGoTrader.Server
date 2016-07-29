@@ -3,7 +3,7 @@ import * as Pokemon from '../api/controllers/pokemon.es6';
 import * as Type from '../api/controllers/type.es6';
 
 async function insertTypes() {
-  for (const name in pokemonTypes) { // only grabbing the name
+  for (const name of pokemonTypes) { // only grabbing the name
     const types = [];
     for (const type of pokemonTypes[name]) {
       if (true) {

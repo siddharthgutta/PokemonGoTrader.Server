@@ -52,18 +52,18 @@ describe('User DB API', () => {
     it('should successfully add an item to a user', async() => {
       const user = await User.createFbUser(fbId, {user: {firstName, lastName, profileImage, venmoId: '123'}});
       const item = await Item.create('Nav', 'trade', 'no', user.fbId);
-      const updatedUser = await User.addItem(user.fbId, item.id);
-      assert(updatedUser.items[0], item);
+      const updatedUser = await User.addItem(user.fbId, item._id);
+      assert.deepEqual(updatedUser.items[0]._id, item._id);
     });
 
     it('should successfully add several items to a user', async() => {
       const user = await User.createFbUser(fbId, {user: {firstName, lastName, profileImage, venmoId: '123'}});
       const item1 = await Item.create('Nav', 'trade', 'no', user.fbId);
       const item2 = await Item.create('Kevin', 'trade', 'pornhub', user.fbId);
-      await User.addItem(user.fbId, item1.id);
-      const updatedUser = await User.addItem(user.fbId, item2.id);
-      assert(updatedUser.items[0], item1);
-      assert(updatedUser.items[1], item2);
+      await User.addItem(user.fbId, item1._id);
+      const updatedUser = await User.addItem(user.fbId, item2._id);
+      assert.equal(updatedUser.items[0].name, item1.name);
+      assert.equal(updatedUser.items[1].name, item2.name);
     });
   });
 

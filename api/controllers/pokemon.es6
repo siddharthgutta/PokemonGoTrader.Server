@@ -14,7 +14,7 @@ export async function _create(name, types) {
 }
 
 /**
- * 
+ *
  * @param {String} name: the name of the pokemon
  * @param {Array<String>} ptypes: an array of the type names
  * @returns {Promise} the created pokemon

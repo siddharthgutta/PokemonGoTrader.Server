@@ -91,7 +91,7 @@ describe('PokemonItem API', () => {
       assert.equal(name, check.name);
       const updated = await PokemonItem._updateByObjectId(check._id, {name: 'kevin', status: 'sold'});
       assert.equal(updated.name, 'kevin');
-      assert.equal(updated.status, 'sold')
+      assert.equal(updated.status, 'sold');
     });
   });
 

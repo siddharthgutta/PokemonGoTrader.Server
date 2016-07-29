@@ -14,6 +14,15 @@ describe('Type API', () => {
       const typeCheck = await Type.create(pokemonType);
       assert.equal(typeCheck.name, pokemonType);
     });
+    it('should fail to make the same type twice', async() => {
+      await Type.create(pokemonType);
+      try {
+        await Type.create(pokemonType);
+      } catch (e) {
+        return;
+      }
+      assert(false);
+    });
   });
 
   describe('#findOneByObjectId()', () => {
