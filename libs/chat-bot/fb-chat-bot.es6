@@ -1,7 +1,7 @@
 /* Disabling lint rule since it doesn't make sense. */
 /* eslint-disable babel/generator-star-spacing,one-var,valid-jsdoc */
 
-import {TextMessageData} from '../../msg/facebook/message-data.es6';
+import {TextMessageData} from '../msg/facebook/message-data.es6';
 
 export default class FbChatBot {
   constructor(msgPlatform) {
@@ -21,8 +21,7 @@ export default class FbChatBot {
    * @param {Object} event: The event sent to us
    * @private
    */
-  handleEvent(event) {
-    console.log(event);
+  async handleEvent() {
     return new TextMessageData('Hello I am the PokemonGo Trader bot!');
   }
 

@@ -240,9 +240,7 @@ export default class FBMessenger extends MsgPlatform {
      * Webhook for accepting incoming messages/postbacks
      */
     route.post('/webhook', async (req, res) => {
-      console.log(req.body);
       const entries = req.body.entry;
-      console.log(req.body.entry);
       // Loop through each of the entries
       for (let i = 0; i < entries.length; i++) {
         const messagingEvents = entries[i].messaging;
