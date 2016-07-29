@@ -1,6 +1,8 @@
 import * as User from '../db/user.es6';
 import * as Item from './item.es6';
 import * as Context from './context.es6';
+import * as Location from './location.es6';
+import * as Distance from '../../libs/location/distance.es6';
 
 /**
  * Creates a user
@@ -55,7 +57,7 @@ export async function updateByObjectId(_id, fields) {
  * @returns {Query|Promise|*} return the user from the database
  */
 export async function findOneByFbId(fbId) {
-  return await findOneByFields({fbId}, ['context']);
+  return await findOneByFields({fbId}, ['context', 'location']);
 }
 
 /**
@@ -65,7 +67,7 @@ export async function findOneByFbId(fbId) {
  * @returns {Query|Promise|*} return the user from the database
  */
 export async function findOneByObjectId(_id) {
-  return await findOneByFields({_id}, ['context']);
+  return await findOneByFields({_id}, ['context', 'location']);
 }
 
 /**
@@ -76,7 +78,7 @@ export async function findOneByObjectId(_id) {
  * @returns {User} returns the user without updates from the database
  */
 export async function updateFieldsByFbId(fbId, fields) {
-  return await User.findOneAndUpdate({fbId}, {$set: fields}, {runValidators: true});
+  return await User.findOneAndUpdate({fbId}, {$set: fields}, {runValidators: true, new: true});
 }
 
 /**
@@ -91,4 +93,27 @@ export async function addItem(fbId, itemId) {
   const item = await Item.findById(itemId);
   user.items.push(item);
   return await user.save();
+}
+
+/**
+ * Changes (or adds) the location of the user
+ *
+ * @param {String} fbId: fbId of the user
+ * @param {Number} lat: latitude of the new location
+ * @param {Number} long: longitude of the new location
+ * @returns {Promise}: the updated user
+ */
+export async function changeLocation(fbId, lat, long) {
+  const user = await findOneByFbId(fbId);
+  const location = await Location.createWithCoord(lat, long);
+  user.location = location._id;
+  return await user.save();
+}
+
+export async function findDistanceFromUser(originFbId, destinationFbId) {
+  const originUser = findOneByFbId(originFbId);
+  const destinationUser = findOneByFbId(destinationFbId);
+  return Distance.calcDistanceInMiles(originUser.location.coordinates.latitude,
+    originUser.location.coordinates.longitude, destinationUser.location.coordinates.latitude,
+    destinationUser.location.coordinates.longitude);
 }

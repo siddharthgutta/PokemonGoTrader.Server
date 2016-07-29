@@ -16,6 +16,9 @@
       "channelId": "C1SE1JYJX"
     }
   },
+  "Google": {
+    "apiKey": "AIzaSyCTRuUGZgHw8hR8Wbegrs0WwJqDJBaMRDU"
+  },
   "MongoDb": {
     "username": "root",
     "password": "123456",

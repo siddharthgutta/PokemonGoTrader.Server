@@ -5,10 +5,10 @@ const pokemonItemSchema = Item.discriminator('PokemonItem', new mongoose.Schema(
   name: {
     type: String
   },
-  types: {
-    type: [String],
-    required: true
-  },
+  types: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'PokemonType'
+  }],
   combatPower: {
     type: Number,
     required: true,

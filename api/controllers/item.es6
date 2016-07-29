@@ -23,7 +23,7 @@ export async function create(name, transactionType, defaultPhoto, fbId, optional
  * @returns {Promise}: the found items
  */
 export async function findById(_id) {
-  return await Item.findOne(_id);
+  return await Item.findOne({_id});
 }
 
 /**

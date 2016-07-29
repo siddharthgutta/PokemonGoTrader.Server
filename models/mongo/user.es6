@@ -24,6 +24,10 @@ const userSchema = new mongoose.Schema({
   context: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Context'
+  },
+  location: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Location'
   }
 });
 
