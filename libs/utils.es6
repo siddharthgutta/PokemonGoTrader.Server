@@ -9,7 +9,7 @@
  * @returns {boolean}: return if object is null or undefined
  */
 export function isNullOrUndefined(a) {
-	return typeof a === 'undefined' || a === null;
+  return typeof a === 'undefined' || a === null;
 }
 
 /**
@@ -19,5 +19,5 @@ export function isNullOrUndefined(a) {
  * @returns {boolean}: return if object is null/undefined/empty string
  */
 export function isEmpty(a) {
-	return isNullOrUndefined(a) || (typeof a === 'string' && !a.trim().length);
+  return isNullOrUndefined(a) || (typeof a === 'string' && !a.trim().length);
 }

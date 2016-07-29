@@ -2,6 +2,21 @@ import * as PokemonItem from '../db/pokemonItem.es6';
 import * as Pokemon from './pokemon.es6';
 import * as User from './user.es6';
 
+
+/**
+ * Checks to see if a pokemon name is valid
+ * @param {String} name: the name of the pokemon to look for
+ * @returns {*}: true if it passes and an Error if it fails
+ */
+async function checkPokemon(name) {
+  try {
+    await Pokemon.findOneByName(name);
+    return true;
+  } catch (err) {
+    return Error;
+  }
+}
+
 /**
  * Creates a pokemonItem
  *
@@ -38,22 +53,8 @@ export async function create(name, combatPower, transactionType, defaultPhoto, f
 }
 
 /**
- * Checks to see if a pokemon name is valid
- * @param {String} name: the name of the pokemon to look for
- * @returns {*}: true if it passes and an Error if it fails
- */
-async function checkPokemon(name) {
-  try {
-    await Pokemon.findOneByName(name);
-    return true;
-  } catch (err) {
-    return Error;
-  }
-}
-
-/**
  * Updates a Pokemon Item
- * 
+ *
  * @param {objectId} _id: the id of the Pokemon Item to update
  * @param {Object} updatedFields: the fields to update the Pokemon Item with
  * @returns {Promise} the updated Pokemon item
@@ -75,10 +76,11 @@ export async function updateStatus(_id, status) {
 }
 
 /**
+ * Finds a single PokemonItem from an _id
  *
- * @param _id
- * @returns {Promise}
+ * @param {objectId} _id: the Id of the PokemonItem
+ * @returns {Promise} the found PokemonItem
  */
 export async function findById(_id) {
-   return await PokemonItem.findOne({_id});
+  return await PokemonItem.findOne({_id});
 }

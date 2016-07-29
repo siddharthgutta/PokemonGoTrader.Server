@@ -32,6 +32,14 @@ export async function findOne(attributes) {
   return pokemon;
 }
 
+/**
+ * Finds a pokemon based on certain parameters
+ *
+ * @param {Object} conditions: the conditions to search with
+ * @param {number} limit: the number of Pokemon to grab
+ * @param {Array<String>} populateFields: fields to populate the query with
+ * @returns {*} the found object
+ */
 export async function find(conditions, limit, populateFields = []) {
   let findQuery = Pokemon.find(conditions);
   findQuery = _.reduce(populateFields, (query, field) =>

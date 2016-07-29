@@ -55,8 +55,7 @@ export async function findOneAndUpdate(conditions, updates, options) {
   return pokemonItem;
 }
 
-export async function addValidator(field, foo)
-{
+export async function addValidator(field, foo) {
   PokemonItem.schema.path(field).validate(await foo(field));
 }
 

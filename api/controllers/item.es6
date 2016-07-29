@@ -30,7 +30,7 @@ export async function findById(_id) {
  * Changes the status of the item
  *
  * @param {String} _id: the id of the item
- * @param {Object} status: the new status of the item FIX 
+ * @param {Object} status: the new status of the item FIX
  * @returns {Promise}: the updated item
  */
 export async function changeStatus(_id, status) {

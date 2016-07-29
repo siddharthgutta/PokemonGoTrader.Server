@@ -148,6 +148,6 @@ const pokemonTypes = {bulbasaur: ['poison', 'grass'],
 	dragonair: ['dragon'],
 	dragonite: ['flying', 'dragon'],
 	mewtwo: ['psychic'],
-	mew: ['psychic'] };
+	mew: ['psychic']};
 
 export default pokemonTypes;

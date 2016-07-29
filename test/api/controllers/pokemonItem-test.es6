@@ -1,9 +1,9 @@
 import * as PokemonItem from '../../../api/controllers/pokemonItem.es6';
-import * as Pokemon from '../../../api/controllers/pokemon.es6'
+import * as Pokemon from '../../../api/controllers/pokemon.es6';
 import {clear} from '../../../models/mongo/index.es6';
 import assert from 'assert';
 import * as User from '../../../api/controllers/user.es6';
-import * as Type from '../../../api/controllers/type.es6'
+import * as Type from '../../../api/controllers/type.es6';
 
 
 describe('PokemonItem API', () => {
@@ -18,12 +18,11 @@ describe('PokemonItem API', () => {
   });
 
   describe('#create()', () => {
-
     it('should successfully create a pokemonItem', async() => {
       // need to create types
       const {_id: id1} = await Type.create('brown');
       const {_id: id2} = await Type.create('fairy');
-      await Pokemon.create('Nav', [id1, id2]);
+      await Pokemon._create('Nav', [id1, id2]);
       await User.createFbUser(fbId);
       const check = await PokemonItem.create(name, cp, transactionType, photoUrl, fbId);
       assert.equal(name, check.name);
@@ -33,34 +32,74 @@ describe('PokemonItem API', () => {
       try {
         const {_id: id1} = await Type.create('brown');
         const {_id: id2} = await Type.create('fairy');
-        await Pokemon.create('Nav', [id1, id2]);
+        await Pokemon._create('Nav', [id1, id2]);
         await User.createFbUser(fbId);
         await PokemonItem.create('Jesse', cp, transactionType, photoUrl, fbId);
-      } catch (e) {return;}
+      } catch (e) {
+        return;
+      }
+      assert(false);
+    });
+
+    it('should fail to make a pokemonItem with an invalid CP', async() => {
+      try {
+        const {_id: id1} = await Type.create('brown');
+        const {_id: id2} = await Type.create('fairy');
+        await Pokemon._create('Nav', [id1, id2]);
+        await User.createFbUser(fbId);
+        await PokemonItem.create('Jesse', 'the', transactionType, photoUrl, fbId);
+      } catch (e) {
+        return;
+      }
+      assert(false);
+    });
+
+    it('should fail to make a pokemonItem with an invalid photoUrl', async() => {
+      try {
+        const {_id: id1} = await Type.create('brown');
+        const {_id: id2} = await Type.create('fairy');
+        await Pokemon._create('Nav', [id1, id2]);
+        await User.createFbUser(fbId);
+        await PokemonItem.create('Jesse', cp, transactionType, 12, fbId);
+      } catch (e) {
+        return;
+      }
+      assert(false);
+    });
+
+    it('should fail to make a pokemonItem with an invalid trade type', async() => {
+      try {
+        const {_id: id1} = await Type.create('brown');
+        const {_id: id2} = await Type.create('fairy');
+        await Pokemon._create('Nav', [id1, id2]);
+        await User.createFbUser(fbId);
+        await PokemonItem.create('Jesse', cp, 'nav', photoUrl, fbId);
+      } catch (e) {
+        return;
+      }
       assert(false);
     });
   });
 
   describe('#_updateByObjectId()', () => {
-
     it('should successfully update a pokemonItem', async() => {
       const {_id: id1} = await Type.create('brown');
       const {_id: id2} = await Type.create('fairy');
-      await Pokemon.create('Nav', [id1, id2]);
+      await Pokemon._create('Nav', [id1, id2]);
       await User.createFbUser(fbId);
       const check = await PokemonItem.create(name, cp, transactionType, photoUrl, fbId);
       assert.equal(name, check.name);
-      const updated = await PokemonItem._updateByObjectId(check._id, {name: 'kevin'});
-      assert.equal(updated.name, 'kevin');  
+      const updated = await PokemonItem._updateByObjectId(check._id, {name: 'kevin', status: 'sold'});
+      assert.equal(updated.name, 'kevin');
+      assert.equal(updated.status, 'sold')
     });
   });
 
   describe('#updateStatus()', () => {
-
     it('should successfully update the status of a pokemonItem', async() => {
       const {_id: id1} = await Type.create('brown');
       const {_id: id2} = await Type.create('fairy');
-      await Pokemon.create('Nav', [id1, id2]);
+      await Pokemon._create('Nav', [id1, id2]);
       await User.createFbUser(fbId);
       const status = 'sold';
       const check = await PokemonItem.create(name, cp, transactionType, photoUrl, fbId);
@@ -72,7 +111,7 @@ describe('PokemonItem API', () => {
     it('should fail to update the status of a pokemonItem with an invalid status', async() => {
       const {_id: id1} = await Type.create('brown');
       const {_id: id2} = await Type.create('fairy');
-      await Pokemon.create('Nav', [id1, id2]);
+      await Pokemon._create('Nav', [id1, id2]);
       await User.createFbUser(fbId);
       const check = await PokemonItem.create(name, cp, transactionType, photoUrl, fbId);
       assert.equal(name, check.name);
@@ -86,11 +125,10 @@ describe('PokemonItem API', () => {
   });
 
   describe('#findById()', () => {
-
     it('should successfully find a pokemonItem from its Id', async() => {
       const {_id: id1} = await Type.create('brown');
       const {_id: id2} = await Type.create('fairy');
-      await Pokemon.create('Nav', [id1, id2]);
+      await Pokemon._create('Nav', [id1, id2]);
       await User.createFbUser(fbId);
       const {_id} = await PokemonItem.create(name, cp, transactionType, photoUrl, fbId);
       const foundPokemonItem = await PokemonItem.findById(_id);
@@ -101,15 +139,15 @@ describe('PokemonItem API', () => {
     it('should fail to find a non-existent  pokemonItem', async() => {
       const {_id: id1} = await Type.create('brown');
       const {_id: id2} = await Type.create('fairy');
-      await Pokemon.create('Nav', [id1, id2]);
+      await Pokemon._create('Nav', [id1, id2]);
       await User.createFbUser(fbId);
-      const x = await PokemonItem.create(name, cp, transactionType, photoUrl, fbId);
+      await PokemonItem.create(name, cp, transactionType, photoUrl, fbId);
       try {
-        const check = await PokemonItem.findById('lolDNE');
+        await PokemonItem.findById('lolDNE');
       } catch (e) {
         return;
       }
       assert(false);
-    })
+    });
   });
 });

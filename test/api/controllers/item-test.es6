@@ -29,11 +29,31 @@ describe('Item API', () => {
       assert.equal(checkItem.price, 69);
     });
 
+    it('should successfully create an item with a status', async() => {
+      await User.createFbUser(fbId);
+      const checkItem = await Item.create(name, transactionType, photoUrl, fbId, {status: 'sold'});
+      assert.equal(checkItem.name, name);
+      assert.equal(checkItem.defaultPhoto, photoUrl);
+      assert.equal(checkItem.status, 'sold');
+    });
+
     it('should fail to create an item with a non number price', async() => {
       await User.createFbUser(fbId);
       try {
         await Item.create(name, transactionType, photoUrl, fbId, {price: '1 nav'});
-      } catch (e) {return;}
+      } catch (e) {
+        return;
+      }
+      assert(false);
+    });
+
+    it('should fail to create an item with an invalid status', async() => {
+      await User.createFbUser(fbId);
+      try {
+        await Item.create(name, transactionType, photoUrl, fbId, {status: '1 nav'});
+      } catch (e) {
+        return;
+      }
       assert(false);
     });
   });
@@ -47,31 +67,29 @@ describe('Item API', () => {
       assert.deepEqual(checkItem._id, foundItem._id);
     });
   });
-  
-  describe('#changeStatus', () => {
 
+  describe('#changeStatus', () => {
     it('should successfully set the status of an object', async () => {
       const status = 'sold';
       await User.createFbUser(fbId);
       const item = await Item.create(name, transactionType, photoUrl, fbId, {price: 69});
       const checkItem = await Item.changeStatus(item._id, {status});
-      assert.equal(checkItem.status, status)
+      assert.equal(checkItem.status, status);
     });
-
     it('should fail to set the status if not one of the enums', async () => {
-
       const status = 'NAV';
       await User.createFbUser(fbId);
       const item = await Item.create(name, transactionType, photoUrl, fbId, {price: 69});
       try {
         await Item.changeStatus(item._id, {status});
-      } catch (e) {return;}
+      } catch (e) {
+        return;
+      }
       assert(false);
-    })
+    });
   });
 
   describe('#updateByObjectId', () => {
-
     it('should successfully set the status of an object', async () => {
       const fields = {
         price: 29,
@@ -82,7 +100,6 @@ describe('Item API', () => {
       const checkItem = await Item.updateByObjectId(item._id, fields);
       assert.equal(checkItem.status, fields.status);
       assert.equal(checkItem.price, fields.price);
-
     });
 
     it('should successfully set the status of an object', async () => {
@@ -92,7 +109,7 @@ describe('Item API', () => {
       await User.createFbUser(fbId);
       const item = await Item.create(name, transactionType, photoUrl, fbId, {price: 69});
       const checkItem = await Item.updateByObjectId(item._id, fields);
-      assert.equal(checkItem.name, fields.name)
+      assert.equal(checkItem.name, fields.name);
     });
   });
 });

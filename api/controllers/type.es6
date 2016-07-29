@@ -11,17 +11,24 @@ export async function create(name) {
   return await PokemonType.create({name});
 }
 
-export async function findOneByObjectid(_id) {
+/**
+ * Finds an object from an objectId
+ *
+ * @param {objectId} _id: the id to search with
+ * @returns {Promise} returns the type found with the id
+ */
+export async function findOneByObjectId(_id) {
   return await PokemonType.findOne({_id});
 }
 
 /**
+ * Finds a type by its name
  *
- * @param {String} name
- * @returns {Promise}
+ * @param {String} name: the name to query with
+ * @returns {Promise} the type found with the name
  */
 export async function findByName(name) {
-    return await PokemonType.findOne({name});
+  return await PokemonType.findOne({name});
 }
 
 /**
@@ -35,14 +42,4 @@ export async function findByName(name) {
  */
 export async function _find(conditions, limit, populateFields = []) {
   return await PokemonType.find(conditions, limit, populateFields);
-}
-
-/**
- * Finds all pokemon types given the conditions
- *
- * @param {Object} conditions: the conditions to query by
- * @returns {PokemonType}: the found pokemon
- */
-export async function findAll(conditions = {}) {
-  return await _find(conditions, 0);
 }

@@ -10,20 +10,23 @@ import * as Type from './type.es6';
  * @returns {Promise} the created Pokemon
  */
 export async function _create(name, types) {
-  // need to create types within this function 
   return await Pokemon.create({name, types});
 }
 
+/**
+ * 
+ * @param {String} name: the name of the pokemon
+ * @param {Array<String>} ptypes: an array of the type names
+ * @returns {Promise} the created pokemon
+ */
 export async function create(name, ptypes) {
   const types = [];
-  for (const type of ptypes)
-  {
+  for (const type of ptypes) {
     try {
       const {_id} = await Type.findByName(type);
       types.push(_id);
     } catch (e) {
-      const {_id} = await Type.create(type);
-      types.push(_id);
+      throw new Error('Please input a valid type');
     }
   }
 
@@ -41,16 +44,16 @@ export async function findOneByName(name) {
 }
 
 /**
- * The types of the pokemon
+ * Finds the types of the pokemon
  *
  * @param {String} name: the name to query by
  * @returns {Array<String>}: the found types
  */
 export async function findTypesByName(name) {
-  const pokemon =  (await findOneByName(name)).types;
+  const pokemon = (await findOneByName(name)).types;
   const types = [];
   for (const type of pokemon) {
-    types.push(await Type.findOneByObjectid(type))
+    types.push((await Type.findOneByObjectId(type)).name);
   }
   return types;
 }
