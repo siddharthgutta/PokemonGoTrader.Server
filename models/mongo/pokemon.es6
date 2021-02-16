@@ -7,7 +7,8 @@ const pokemonSchema = new mongoose.Schema({
     unique: true
   },
   types: [{
-    type: mongoose.Schema.Types.ObjectId
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'PokemonType'
   }]
 });
 
